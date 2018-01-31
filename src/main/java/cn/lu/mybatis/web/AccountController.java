@@ -1,10 +1,12 @@
 package cn.lu.mybatis.web;
 
+import cn.lu.mybatis.dto.CreateAccountDTO;
 import cn.lu.mybatis.dto.QueryParamDTO;
 import cn.lu.mybatis.entity.Account;
+import cn.lu.mybatis.exception.SQLException;
 import cn.lu.mybatis.mapper.AccountMapper;
+import cn.lu.mybatis.util.UuidUtil;
 import cn.lu.mybatis.vo.ListResultVO;
-import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -37,11 +39,31 @@ public class AccountController {
     }
 
     /**
-     * 常用查询，需要排序和分页
+     * 写入
+     *
+     * @return
+     */
+    @PostMapping("")
+    public Account create(CreateAccountDTO accountDTO) throws Exception {
+        Account account = new Account();
+        account.setAccountStatus(1);
+        account.setAccountType("21");
+        account.setAccountUuid(UuidUtil.getUuid());
+        account.setUserUuid(accountDTO.getUserUuid());
+        int row = accountMapper.insertSelective(account);
+        if (row == 1) {
+            return account;
+        } else {
+            throw new SQLException();
+        }
+    }
+
+    /**
+     * 常用查询，支持排序和分页
      *
      */
     @GetMapping("/query")
-    public ListResultVO<Account> search(QueryParamDTO param) {
+    public ListResultVO<Account> retrieve(QueryParamDTO param) {
         // 这里需要指定实体类
         Example condition = new Example(Account.class);
 
@@ -70,4 +92,6 @@ public class AccountController {
 
         return resultVO;
     }
+
+
 }

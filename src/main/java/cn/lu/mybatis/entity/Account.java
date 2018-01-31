@@ -62,4 +62,11 @@ public class Account extends Entity {
     @Column(name = "account_freeze_amount")
     private BigDecimal accountFreezeAmount;
 
+    public Account() {
+        super();
+        accountAmount = BigDecimal.ZERO;
+        accountCashAmount = BigDecimal.ZERO;
+        accountFreezeAmount = BigDecimal.ZERO;
+    }
+
 }

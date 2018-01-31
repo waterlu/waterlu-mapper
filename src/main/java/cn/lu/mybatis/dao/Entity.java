@@ -21,7 +21,7 @@ public class Entity {
      * 删除标记
      */
     @Column(name = "delete_flag")
-    private Byte deleteFlag;
+    private Integer deleteFlag;
 
     /**
      * 创建时间
@@ -34,5 +34,15 @@ public class Entity {
      */
     @Column(name = "update_time")
     private Date updateTime;
+
+    /**
+     * 默认构造函数
+     */
+    public Entity() {
+        Date now = new Date();
+        deleteFlag = 0;
+        createTime = now;
+        updateTime = now;
+    }
 
 }
