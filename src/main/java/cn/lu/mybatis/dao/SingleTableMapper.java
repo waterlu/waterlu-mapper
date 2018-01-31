@@ -1,5 +1,6 @@
 package cn.lu.mybatis.dao;
 
+import tk.mybatis.mapper.common.ConditionMapper;
 import tk.mybatis.mapper.common.Mapper;
 
 /**
