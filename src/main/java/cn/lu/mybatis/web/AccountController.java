@@ -3,11 +3,13 @@ package cn.lu.mybatis.web;
 import cn.lu.mybatis.dto.CreateAccountBatchDTO;
 import cn.lu.mybatis.dto.CreateAccountDTO;
 import cn.lu.mybatis.dto.QueryParamDTO;
+import cn.lu.mybatis.dto.UpdateAccountDTO;
 import cn.lu.mybatis.entity.Account;
 import cn.lu.mybatis.exception.SQLException;
 import cn.lu.mybatis.mapper.AccountMapper;
 import cn.lu.mybatis.util.UuidUtil;
 import cn.lu.mybatis.vo.ListResultVO;
+import com.google.common.base.Strings;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -125,5 +127,31 @@ public class AccountController {
         return resultVO;
     }
 
+    /**
+     * 更新
+     *
+     * @param accountUuid
+     * @param accountDTO
+     * @return
+     * @throws Exception
+     */
+    @PutMapping("/{accountUuid}")
+    public Account update(@PathVariable String accountUuid, @RequestBody UpdateAccountDTO accountDTO) throws Exception {
+        Account account = new Account();
+        account.setAccountUuid(accountUuid);
+        // 值不为空的字段将被更新
+        if (null != accountDTO.getAccountAmount()) {
+            account.setAccountAmount(accountDTO.getAccountAmount());
+        }
+        if (null != accountDTO.getAccountCashAmount()) {
+            account.setAccountCashAmount(accountDTO.getAccountCashAmount());
+        }
+        int row = accountMapper.updateByPrimaryKeySelective(account);
+        if (row > 0) {
+            return account;
+        } else {
+            throw new SQLException();
+        }
+    }
 
 }

@@ -2,14 +2,13 @@ package cn.lu.mybatis.web;
 
 import cn.lu.mybatis.dto.CreateUserBatchDTO;
 import cn.lu.mybatis.dto.CreateUserDTO;
+import cn.lu.mybatis.dto.UpdateUserDTO;
 import cn.lu.mybatis.entity.User;
 import cn.lu.mybatis.exception.SQLException;
 import cn.lu.mybatis.mapper.UserMapper;
+import com.google.common.base.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +64,33 @@ public class UserController {
         int row = userMapper.insertList(userList);
         if (row > 0) {
             return userList;
+        } else {
+            throw new SQLException();
+        }
+    }
+
+    /**
+     * 更新
+     *
+     * @param userId
+     * @param userDTO
+     * @return
+     * @throws Exception
+     */
+    @PutMapping("/{userId}")
+    public User update(@PathVariable Long userId, @RequestBody UpdateUserDTO userDTO) throws Exception {
+        User user = new User();
+        user.setUserId(userId);
+        // 值不为空的字段将被更新
+        if (!Strings.isNullOrEmpty(userDTO.getUserName())) {
+            user.setUserName(userDTO.getUserName());
+        }
+        if (!Strings.isNullOrEmpty(userDTO.getUserMobile())) {
+            user.setUserMobile(userDTO.getUserMobile());
+        }
+        int row = userMapper.updateByPrimaryKeySelective(user);
+        if (row > 0) {
+            return user;
         } else {
             throw new SQLException();
         }
