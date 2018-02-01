@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.math.BigDecimal;
 
 /**
@@ -18,6 +19,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @ToString
+@Table(name = "test_account")
 public class Account extends Entity {
     /**
      * 账户UUID
@@ -27,10 +29,10 @@ public class Account extends Entity {
     private String accountUuid;
 
     /**
-     * 用户UUID
+     * 用户ID
      */
-    @Column(name = "user_uuid")
-    private String userUuid;
+    @Column(name = "user_id")
+    private Long userId;
 
     /**
      * 账户类型

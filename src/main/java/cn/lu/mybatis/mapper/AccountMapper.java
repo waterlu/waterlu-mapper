@@ -1,5 +1,6 @@
 package cn.lu.mybatis.mapper;
 
+import cn.lu.mybatis.dao.InsertUuidListMapper;
 import cn.lu.mybatis.dao.SingleTableMapper;
 import cn.lu.mybatis.entity.Account;
 import org.springframework.stereotype.Repository;
@@ -11,6 +12,6 @@ import org.springframework.stereotype.Repository;
  * @date 2018/01/31
  */
 @Repository
-public interface AccountMapper extends SingleTableMapper<Account> {
+public interface AccountMapper extends SingleTableMapper<Account>, InsertUuidListMapper<Account> {
 
 }

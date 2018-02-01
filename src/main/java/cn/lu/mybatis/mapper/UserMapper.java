@@ -2,6 +2,7 @@ package cn.lu.mybatis.mapper;
 
 import cn.lu.mybatis.dao.SingleTableMapper;
 import cn.lu.mybatis.entity.User;
+import cn.lu.mybatis.mapper2.UserInsertListMapper;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -11,6 +12,6 @@ import org.springframework.stereotype.Repository;
  * @date 2018/01/31
  */
 @Repository
-public interface UserMapper extends SingleTableMapper<User>, UserBatchInsertMapper<User> {
+public interface UserMapper extends SingleTableMapper<User>, UserInsertListMapper<User> {
 
 }

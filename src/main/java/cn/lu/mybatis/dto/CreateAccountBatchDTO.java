@@ -13,12 +13,19 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @ToString
-public class CreateAccountDTO {
+public class CreateAccountBatchDTO {
 
     /**
-     * 用户UUID
-     *
+     * 用户起始手机号码
      */
     @NotNull
     private Long userId;
+
+    /**
+     * 用户个数
+     *
+     */
+    @NotNull
+    private Integer count;
+
 }

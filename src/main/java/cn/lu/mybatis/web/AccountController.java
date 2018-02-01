@@ -1,5 +1,6 @@
 package cn.lu.mybatis.web;
 
+import cn.lu.mybatis.dto.CreateAccountBatchDTO;
 import cn.lu.mybatis.dto.CreateAccountDTO;
 import cn.lu.mybatis.dto.QueryParamDTO;
 import cn.lu.mybatis.entity.Account;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tk.mybatis.mapper.entity.Example;
 
+import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,15 +47,44 @@ public class AccountController {
      * @return
      */
     @PostMapping("")
-    public Account create(CreateAccountDTO accountDTO) throws Exception {
+    public Account create(@RequestBody @Valid CreateAccountDTO accountDTO) throws Exception {
         Account account = new Account();
         account.setAccountStatus(1);
         account.setAccountType("21");
         account.setAccountUuid(UuidUtil.getUuid());
-        account.setUserUuid(accountDTO.getUserUuid());
+        account.setUserId(accountDTO.getUserId());
         int row = accountMapper.insertSelective(account);
         if (row == 1) {
             return account;
+        } else {
+            throw new SQLException();
+        }
+    }
+
+    /**
+     * 批量写入
+     *
+     * @return
+     * @throws Exception
+     */
+    @PostMapping("/batch")
+    public List<Account> createBatch(@RequestBody @Valid CreateAccountBatchDTO accountBatchDTO) throws Exception {
+        List<Account> accountList = new ArrayList<>();
+        for (int i=0; i<accountBatchDTO.getCount().intValue(); i++) {
+            Account account = new Account();
+            account.setAccountStatus(1);
+            account.setAccountType("21");
+            account.setAccountUuid(UuidUtil.getUuid());
+            long userId = accountBatchDTO.getUserId() + i;
+            account.setUserId(userId);
+            accountList.add(account);
+        }
+
+        // insertList() 批量写入，主键是自增ID，数据库自动生成
+        // insertUuidList() 批量写入，主键不是自增ID，需要自己设置值
+        int row = accountMapper.insertUuidList(accountList);
+        if (row > 0) {
+            return accountList;
         } else {
             throw new SQLException();
         }

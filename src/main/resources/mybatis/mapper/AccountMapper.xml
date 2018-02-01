@@ -6,7 +6,7 @@
       WARNING - @mbg.generated
     -->
     <id column="account_uuid" jdbcType="CHAR" property="accountUuid" />
-    <result column="user_uuid" jdbcType="CHAR" property="userUuid" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="account_type" jdbcType="CHAR" property="accountType" />
     <result column="account_status" jdbcType="TINYINT" property="accountStatus" />
     <result column="account_amount" jdbcType="DECIMAL" property="accountAmount" />
