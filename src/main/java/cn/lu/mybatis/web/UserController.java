@@ -95,4 +95,13 @@ public class UserController {
             throw new SQLException();
         }
     }
+
+    @DeleteMapping("/{userId}")
+    public int delete(@PathVariable Long userId) throws Exception {
+        User user = new User();
+        user.setUserId(userId);
+        user.setDeleteFlag(1);
+        return userMapper.updateByPrimaryKeySelective(user);
+        //return userMapper.deleteByPrimaryKey(userId);
+    }
 }
